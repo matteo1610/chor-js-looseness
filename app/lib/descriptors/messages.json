@@ -1,0 +1,24 @@
+{
+  "name": "Messages",
+  "prefix": "msg",
+  "uri": "http://messages",
+  "xml": {
+    "tagAlias": "lowerCase"
+  },
+  "associations": [],
+  "types": [
+    {
+      "name": "Messages",
+      "extends": [
+        "bpmn:Message"
+      ],
+      "properties": [
+        {
+          "name": "items",
+          "isMany": true,
+          "type": "camunda:Value"
+        }
+      ]
+    }
+  ]
+}

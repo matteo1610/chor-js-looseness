@@ -1,8 +1,11 @@
-import ChoreoModeler from 'chor-js/lib/Modeler';
+import ChorJSModeler from 'chor-js/lib/Modeler';
 import PropertiesPanelModule from 'bpmn-js-properties-panel';
 
 import Reporter from './lib/validator/Validator.js';
-import PropertiesProviderModule from './lib/properties-provider';
+import PropertiesProviderModule from './lib/provider'; // import custom properties provider
+
+import messagesModdleDescriptor from './lib/descriptors/messages.json';
+import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
 
 import xml from './diagrams/pizzaDelivery.bpmn';
 import blankXml from './diagrams/newDiagram.bpmn';
@@ -12,19 +15,21 @@ let isValidating = false;
 let isDirty = false;
 
 // create and configure a chor-js instance
-const modeler = new ChoreoModeler({
+const modeler = new ChorJSModeler({
   container: '#canvas',
   propertiesPanel: {
     parent: '#properties-panel'
   },
-  // remove the properties' panel if you use the Viewer
-  // or NavigatedViewer modules of chor-js
   additionalModules: [
     PropertiesPanelModule,
     PropertiesProviderModule
   ],
   keyboard: {
     bindTo: document
+  },
+  moddleExtensions: {
+    messages : messagesModdleDescriptor,
+    camunda : camundaModdleDescriptor
   }
 });
 
