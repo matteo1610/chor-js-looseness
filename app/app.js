@@ -4,7 +4,7 @@ import PropertiesPanelModule from 'bpmn-js-properties-panel';
 import Reporter from './lib/validator/Validator.js';
 import PropertiesProviderModule from './lib/provider'; // import custom properties provider
 
-import messagesModdleDescriptor from './lib/descriptors/messages.json';
+import tableValuesModdleDescriptor from './lib/descriptors/table-values.json';
 import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
 
 import xml from './diagrams/pizzaDelivery.bpmn';
@@ -28,7 +28,7 @@ const modeler = new ChorJSModeler({
     bindTo: document
   },
   moddleExtensions: {
-    messages : messagesModdleDescriptor,
+    tableValues : tableValuesModdleDescriptor,
     camunda : camundaModdleDescriptor
   }
 });

@@ -1,14 +1,15 @@
-import tableProps from './parts/TableProps';
 import BpmnPropertiesProvider from 'bpmn-js-properties-panel/lib/provider/bpmn/BpmnPropertiesProvider.js';
 import inherits from 'inherits';
 
+import selectionProps from './parts/SelectionProps';
+
 function createLoosenessGroups(element, bpmnFactory, translate) {
   const messagesGroup = {
-    id: 'messages',
-    label: 'Messages',
+    id: 'selection-degree',
+    label: 'Selection Degree',
     entries: []
   };
-  tableProps(messagesGroup, element, bpmnFactory, translate);
+  selectionProps(messagesGroup, element, bpmnFactory, translate);
 
   return [messagesGroup];
 }

@@ -1,16 +1,16 @@
 {
-  "name": "Messages",
-  "prefix": "msg",
-  "uri": "http://messages",
+  "name": "TableValues",
+  "prefix": "values",
+  "uri": "http://table-values",
   "xml": {
     "tagAlias": "lowerCase"
   },
   "associations": [],
   "types": [
     {
-      "name": "Messages",
+      "name": "TableValues",
       "extends": [
-        "bpmn:Message"
+        "bpmn:BaseElement"
       ],
       "properties": [
         {
