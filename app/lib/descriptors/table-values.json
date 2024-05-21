@@ -1,7 +1,7 @@
 {
   "name": "TableValues",
-  "prefix": "values",
-  "uri": "http://table-values",
+  "prefix": "value",
+  "uri": "http://tablevalues",
   "xml": {
     "tagAlias": "lowerCase"
   },
@@ -14,9 +14,49 @@
       ],
       "properties": [
         {
-          "name": "items",
+          "name": "messageItems",
           "isMany": true,
-          "type": "camunda:Value"
+          "type": "value:MessageValue"
+        },
+        {
+          "name": "attributeItems",
+          "isMany": true,
+          "type": "value:AttributeValue"
+        },
+        {
+          "name": "participantItems",
+          "isMany": true,
+          "type": "value:ParticipantValue"
+        }
+      ]
+    },
+    {
+      "name": "MessageValue",
+      "properties": [
+        {
+          "name": "name",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "AttributeValue",
+      "properties": [
+        {
+          "name": "name",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "ParticipantValue",
+      "properties": [
+        {
+          "name": "name",
+          "isAttr": true,
+          "type": "String"
         }
       ]
     }

@@ -2,36 +2,44 @@ import entryFactory from 'bpmn-js-properties-panel/lib/factory/EntryFactory';
 import cmdHelper from 'bpmn-js-properties-panel/lib/helper/CmdHelper';
 
 export default function(element, bpmnFactory, translate, options) {
+  const businessObjectProperty = options.businessObjectProperty;
+  const modelProperties = 'name';
+
   return entryFactory.table(translate, {
     id: options.id,
     description: translate(options.description),
-    modelProperties: [options.modelProperties],
+    modelProperties: [modelProperties],
     labels: [translate(options.labels)],
     addLabel: translate(options.addLabel),
 
     getElements: function(element) {
-      if (Array.isArray(element.businessObject.items)) {
-        return element.businessObject.items;
+      console.log(element);
+      if (Array.isArray(element.businessObject[businessObjectProperty])) {
+        return element.businessObject[businessObjectProperty];
       }
       return [];
     },
 
     addElement: function(element) {
       const bo = element.businessObject;
-      const object = bpmnFactory.create('camunda:Value', { value: undefined });
-      return cmdHelper.addElementsTolist(element, bo, 'items', [ object ]);
+      const object = bpmnFactory.create(options.type, { modelProperties: undefined });
+      return cmdHelper.addElementsTolist(element, bo, businessObjectProperty, [ object ]);
     },
 
     removeElement: function(element, node, idx) {
       const bo = element.businessObject;
-      const object = bo.items[idx];
-      return cmdHelper.removeElementsFromList(element, bo, 'items', null, [ object ]);
+      const object = bo[businessObjectProperty][idx];
+      return cmdHelper.removeElementsFromList(element, bo, businessObjectProperty, null, [ object ]);
     },
 
     updateElement: function(element, values, node, idx) {
+      /*
       const bo = element.businessObject;
-      bo.items[idx].value = values.value;
-      return cmdHelper.updateBusinessObject(element, bo, { items: bo.items });
+      bo[businessObjectProperty][idx][modelProperties] = values[modelProperties];
+      return cmdHelper.updateBusinessObject(element, bo, { businessObjectProperty: bo[businessObjectProperty] });
+       */
+      const item = element.businessObject[businessObjectProperty][idx];
+      return cmdHelper.updateBusinessObject(element, item, values);
     }
   });
 }

@@ -2,16 +2,38 @@ import BpmnPropertiesProvider from 'bpmn-js-properties-panel/lib/provider/bpmn/B
 import inherits from 'inherits';
 
 import selectionProps from './parts/SelectionProps';
+import compositionProps from './parts/CompositionProps';
+import executionProps from './parts/ExecutionProps';
 
 function createLoosenessGroups(element, bpmnFactory, translate) {
-  const messagesGroup = {
+  const executionGroup = {
+    id: 'execution',
+    label: 'Execution',
+    entries: []
+  };
+  executionProps(executionGroup, element, bpmnFactory, translate);
+
+  // Define a group with fields for selection degree
+  const selectionGroup = {
     id: 'selection-degree',
     label: 'Selection Degree',
     entries: []
   };
-  selectionProps(messagesGroup, element, bpmnFactory, translate);
+  selectionProps(selectionGroup, element, bpmnFactory, translate);
 
-  return [messagesGroup];
+  // Define a group with fields for composition degree
+  const compositionGroup = {
+    id: 'composition-degree',
+    label: 'Composition Degree',
+    entries: []
+  };
+  compositionProps(compositionGroup, element, bpmnFactory, translate);
+
+  return [
+    executionGroup,
+    selectionGroup,
+    compositionGroup
+  ];
 }
 
 export default function LoosenessPropertiesProvider(injector, bpmnFactory, translate) {
