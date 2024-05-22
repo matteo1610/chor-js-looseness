@@ -6,7 +6,8 @@ import PropertiesProviderModule from './lib/provider'; // import custom properti
 
 import tableValuesModdleDescriptor from './lib/descriptors/table-values';
 
-import xml from './diagrams/pizzaDelivery.bpmn';
+// import xml from './diagrams/pizzaDelivery.bpmn';
+import xml from './diagrams/EmergencyResponePlan (composition freedom).bpmn';
 import blankXml from './diagrams/newDiagram.bpmn';
 
 let lastFile;

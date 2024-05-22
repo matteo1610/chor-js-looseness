@@ -1,6 +1,7 @@
 import entryFactory from 'bpmn-js-properties-panel/lib/factory/EntryFactory';
 import cmdHelper from 'bpmn-js-properties-panel/lib/helper/CmdHelper';
 
+
 export default function(element, bpmnFactory, translate, options) {
   const businessObjectProperty = options.businessObjectProperty;
   const modelProperties = 'name';
@@ -33,11 +34,6 @@ export default function(element, bpmnFactory, translate, options) {
     },
 
     updateElement: function(element, values, node, idx) {
-      /*
-      const bo = element.businessObject;
-      bo[businessObjectProperty][idx][modelProperties] = values[modelProperties];
-      return cmdHelper.updateBusinessObject(element, bo, { businessObjectProperty: bo[businessObjectProperty] });
-       */
       const item = element.businessObject[businessObjectProperty][idx];
       return cmdHelper.updateBusinessObject(element, item, values);
     }
