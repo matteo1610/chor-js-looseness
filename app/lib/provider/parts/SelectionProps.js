@@ -1,38 +1,32 @@
-import { is } from 'bpmn-js/lib/util/ModelUtil';
-import tableDefinition from './implementation/TableDefinition';
-import entryFactory from 'bpmn-js-properties-panel/lib/factory/EntryFactory';
+import { addTableDefinition } from './helper/TableDefinitionHelper';
 
-export default function(group, element, bpmnFactory, translate) {
-  if (is(element, 'bpmn:Message')) {
+/**
+ * Adds selection properties for the specified BPMN element to the properties group.
+ *
+ * @param {Object} group - The properties panel group.
+ * @param {djs.model.Base} element - The BPMN element.
+ * @param {Object} bpmnFactory - Factory to create new BPMN elements.
+ * @param {Function} translate - Function to translate labels and descriptions.
+ */
+export default function addSelectionProps(group, element, bpmnFactory, translate) {
+  const messageOptions = {
+    id: 'messageList',
+    description: 'Message List',
+    labels: 'Message',
+    addLabel: 'Add Message',
+    businessObjectProperty: 'messageItems',
+    type: 'value:MessageValue'
+  };
 
-    const options = {
-      id: 'messageList',
-      description: 'Message List',
-      labels: 'Message',
-      addLabel: 'Add Message',
-      businessObjectProperty: 'messageItems',
-      type: 'value:MessageValue'
-    };
-    group.entries.push(tableDefinition(element, bpmnFactory, translate, options));
+  const participantOptions = {
+    id: 'participantList',
+    description: 'Participant List',
+    labels: 'Participant',
+    addLabel: 'Add Participant',
+    businessObjectProperty: 'participantItems',
+    type: 'value:ParticipantValue'
+  };
 
-    group.entries.push(entryFactory.selectBox(translate, {
-      id: 'messageType',
-      label: translate('Message Type'),
-      selectOptions: element.businessObject[options.businessObjectProperty],
-      modelProperty: 'messageType'
-    }));
-
-  }
-
-  if (is(element, 'bpmn:Participant')) {
-    const options = {
-      id: 'participantList',
-      description: 'Participant List',
-      labels: 'Participant',
-      addLabel: 'Add Participant',
-      businessObjectProperty: 'participantItems',
-      type: 'value:ParticipantValue'
-    };
-    group.entries.push(tableDefinition(element, bpmnFactory, translate, options));
-  }
+  addTableDefinition(group, element, bpmnFactory, translate, 'bpmn:Message', messageOptions);
+  addTableDefinition(group, element, bpmnFactory, translate, 'bpmn:Participant', participantOptions);
 }
