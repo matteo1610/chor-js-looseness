@@ -28,7 +28,7 @@ const modeler = new ChorJSModeler({
     bindTo: document
   },
   moddleExtensions: {
-    tableValues : tableValuesModdleDescriptor,
+    tableValues : tableValuesModdleDescriptor
   }
 });
 

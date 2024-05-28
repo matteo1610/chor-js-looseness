@@ -19,6 +19,11 @@
           "type": "value:MessageValue"
         },
         {
+          "name": "messageItem",
+          "isAttr": true,
+          "type": "value:MessageValue"
+        },
+        {
           "name": "attributeItems",
           "isMany": true,
           "type": "value:AttributeValue"

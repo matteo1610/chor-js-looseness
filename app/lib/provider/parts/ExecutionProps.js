@@ -20,36 +20,61 @@ export default function addExecutionProps(group, element, bpmnFactory, translate
 }
 
 function addMessageProps(group, element, translate) {
-  let messages = element.businessObject.messageItems || getParentChoreographyElement(element).messageItems;
-  let attributes = getParentChoreographyElement(element).attributeItems;
-
   group.entries.push(entryFactory.selectBox(translate, {
     id: 'messageItem',
     label: translate('Select Message'),
-    selectOptions: messages,
-    modelProperty: 'messageType',
+    selectOptions: () => getMessageItems(element),
+    modelProperty: 'messageType'
   }));
 
   group.entries.push(entryFactory.selectBox(translate, {
     id: 'attributeItem',
     label: translate('Select Attribute'),
-    selectOptions: attributes,
+    selectOptions: () => getAttributeItems(element),
     modelProperty: 'attributeType',
-    hidden: () => !attributes
+    hidden: () => hasMessageItems(element)
   }));
 }
 
 function addParticipantProps(group, element, translate) {
-  let participants = element.businessObject.participantItems || element.businessObject.$parent.participantItems;
-
   group.entries.push(entryFactory.selectBox(translate, {
     id: 'participantItem',
     label: translate('Select Participant'),
-    selectOptions: participants,
+    selectOptions: () => getParticipantItems(element),
     modelProperty: 'participantType'
   }));
 }
 
+function getMessageItems(element) {
+  const messageItems = hasMessageItems(element)
+    ? element.businessObject.messageItems
+    : getParentChoreographyElement(element).messageItems;
+  return [{ name: '', value: '' }, ...messageItems.map(item => ({ name: item.name, value: item.name }))];
+}
+
+function getAttributeItems(element) {
+  const attributeItems = getParentChoreographyElement(element).attributeItems;
+  if (hasMessageItems(element)) {
+    element.businessObject.$attrs.attributeType = '';
+  }
+  return [{ name: '', value: '' }, ...attributeItems.map(item => ({ name: item.name, value: item.name }))];
+}
+
 function getParentChoreographyElement(element) {
   return element.businessObject.$parent.rootElements.find(e => e.$type === 'bpmn:Choreography');
+}
+
+function hasMessageItems(element) {
+  return element.businessObject.messageItems && element.businessObject.messageItems.length > 0;
+}
+
+function hasParticipantItems(element) {
+  return element.businessObject.participantItems && element.businessObject.participantItems.length > 0;
+}
+
+function getParticipantItems(element) {
+  const participantItems = hasParticipantItems(element)
+    ? element.businessObject.participantItems
+    : element.businessObject.$parent.participantItems;
+  return [{ name: '', value: '' }, ...participantItems];
 }
