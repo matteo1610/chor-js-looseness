@@ -1,13 +1,16 @@
 import ChorJSModeler from 'chor-js/lib/Modeler';
 import PropertiesPanelModule from 'bpmn-js-properties-panel';
 
+import Web3 from 'web3';
+import { url, contractAbi, contractAddress } from './contract/contract';
+
 import Reporter from './lib/validator/Validator.js';
 import PropertiesProviderModule from './lib/provider'; // import custom properties provider
 
 import tableValuesModdleDescriptor from './lib/descriptors/table-values';
 
-// import xml from './diagrams/pizzaDelivery.bpmn';
-import xml from './diagrams/EmergencyResponePlan (composition freedom).bpmn';
+import xml from './diagrams/emergency-response-plan/EmergencyResponePlan_none.bpmn';
+// import xml from './diagrams/emergency-response-plan/EmergencyResponePlan_composition.bpmn';
 import blankXml from './diagrams/newDiagram.bpmn';
 
 let lastFile;
@@ -46,7 +49,78 @@ function diagramName() {
   return 'diagram.bpmn';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+// Function to get the current state of the contract
+async function getCurrentState(contract) {
+  try {
+    console.log(contract);
+    const state = await contract.methods.getCurrentState().call();
+    console.log('Current State:', state);
+    updateUI(state);
+  } catch (error) {
+    console.error('Error fetching state:', error);
+  }
+}
+
+// Function to update the UI based on the state of the contract
+function updateUI(state) {
+  state[0].forEach(element => {
+    const elementId = element.ID;
+    let strokeColor, fillColor;
+    console.log(element);
+    switch (Number(element.status)) {
+    case 0:
+      strokeColor = 'red';
+      fillColor = 'lightcoral';
+      break;
+    case 1:
+      strokeColor = 'orange';
+      fillColor = 'lightyellow';
+      break;
+    case 2:
+      strokeColor = 'green';
+      fillColor = 'lightgreen';
+      break;
+    default:
+      strokeColor = 'gray';
+      fillColor = 'lightgray';
+    }
+
+    setTaskColor(elementId, strokeColor, fillColor);
+  });
+}
+
+// Function to set colors on BPMN elements
+function setTaskColor(elementId, strokeColor, fillColor) {
+  const elementRegistry = modeler.get('elementRegistry');
+  const modeling = modeler.get('modeling');
+  const element = elementRegistry.get(elementId);
+
+  if (element) {
+    modeling.setColor([element], {
+      stroke: strokeColor,
+      fill: fillColor
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  // Connect to the blockchain
+  const { ethereum } = window;
+  const web3 = new Web3(ethereum);
+  console.log(web3);
+  const contract = await new web3.eth.Contract(contractAbi, contractAddress);
+  console.log(contract.events);
+
+  // Event listener for functionDone events
+  contract.events.functionDone()
+    .on('data', async event => {
+      console.log('Event received:', event);
+      await getCurrentState(contract);
+    });
+  // .on('error', console.error);
+
+  await getCurrentState(contract);
+
   // download diagram as XML
   const downloadLink = document.getElementById('js-download-diagram');
   downloadLink.addEventListener('click', async e => {

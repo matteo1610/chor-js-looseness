@@ -41,9 +41,12 @@
   },
   "dependencies": {
     "bpmn-js": "^8.10.0",
+    "bpmn-js-color-picker": "^0.4.0",
     "bpmn-js-properties-panel": "^0.46.0",
+    "bpmn-js-token-simulation": "^0.33.2",
     "camunda-bpmn-moddle": "^7.0.1",
     "chor-js": "0.7.1",
-    "inherits": "^2.0.4"
+    "inherits": "^2.0.4",
+    "web3": "^4.9.0"
   }
 }
