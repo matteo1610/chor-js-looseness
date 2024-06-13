@@ -1,32 +1,34 @@
 {
-  "name": "TableValues",
-  "prefix": "value",
-  "uri": "http://tablevalues",
+  "name": "LooseValues",
+  "prefix": "loose",
+  "uri": "http://loosevalues",
   "xml": {
     "tagAlias": "lowerCase"
   },
   "associations": [],
   "types": [
     {
-      "name": "TableValues",
+      "name": "LooseValues",
       "extends": [
-        "bpmn:BaseElement"
+        "bpmn:Choreography",
+        "bpmn:Message",
+        "bpmn:Participant",
       ],
       "properties": [
         {
           "name": "messageItems",
           "isMany": true,
-          "type": "value:MessageValue"
+          "type": "loose:MessageValue"
         },
         {
           "name": "attributeItems",
           "isMany": true,
-          "type": "value:AttributeValue"
+          "type": "loose:AttributeValue"
         },
         {
           "name": "participantItems",
           "isMany": true,
-          "type": "value:ParticipantValue"
+          "type": "loose:ParticipantValue"
         }
       ]
     },

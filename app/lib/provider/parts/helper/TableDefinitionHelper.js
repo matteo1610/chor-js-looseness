@@ -2,7 +2,9 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 import tableDefinition from '../implementation/TableDefinition';
 
 /**
- * Adds a table definition to the group if the element matches the specified type.
+ * Adds a table definition to the group if the element matches the specified type. The table definition is used to
+ * create a custom table entry in the BPMN properties panel. The table entry includes a table with a list of items and
+ * buttons to add, remove, and update items.
  *
  * @param {Object} group - The properties panel group.
  * @param {djs.model.Base|ModdleElement} element - The BPMN element.

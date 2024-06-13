@@ -1,7 +1,8 @@
 import { addTableDefinition } from './helper/TableDefinitionHelper';
 
 /**
- * Adds selection properties for the specified BPMN element to the properties group.
+ * Adds selection properties for the specified BPMN element to the properties group. The properties include a table
+ * definition for message items and a table definition for participants.
  *
  * @param {Object} group - The properties panel group.
  * @param {djs.model.Base|ModdleElement} element - The BPMN element.
@@ -9,24 +10,21 @@ import { addTableDefinition } from './helper/TableDefinitionHelper';
  * @param {Function} translate - Function to translate labels and descriptions.
  */
 export default function addSelectionProps(group, element, bpmnFactory, translate) {
-  const messageOptions = {
+  addTableDefinition(group, element, bpmnFactory, translate, 'bpmn:Message', {
     id: 'messageList',
     description: 'Message List',
     labels: 'Message',
     addLabel: 'Add Message',
     businessObjectProperty: 'messageItems',
-    type: 'value:MessageValue'
-  };
+    type: 'loose:MessageValue'
+  });
 
-  const participantOptions = {
+  addTableDefinition(group, element, bpmnFactory, translate, 'bpmn:Participant', {
     id: 'participantList',
     description: 'Participant List',
     labels: 'Participant',
     addLabel: 'Add Participant',
     businessObjectProperty: 'participantItems',
-    type: 'value:ParticipantValue'
-  };
-
-  addTableDefinition(group, element, bpmnFactory, translate, 'bpmn:Message', messageOptions);
-  addTableDefinition(group, element, bpmnFactory, translate, 'bpmn:Participant', participantOptions);
+    type: 'loose:ParticipantValue'
+  });
 }

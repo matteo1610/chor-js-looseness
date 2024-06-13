@@ -1,17 +1,16 @@
 import ChorJSModeler from 'chor-js/lib/Modeler';
-import PropertiesPanelModule from 'bpmn-js-properties-panel';
-
-import Web3 from 'web3';
-import { url, contractAbi, contractAddress } from './contract/contract';
-
 import Reporter from './lib/validator/Validator.js';
-import PropertiesProviderModule from './lib/provider'; // import custom properties provider
+import PropertiesPanelModule from 'bpmn-js-properties-panel';
+import PropertiesProviderModule from './lib/provider';
 
-import tableValuesModdleDescriptor from './lib/descriptors/table-values';
+import looseValuesModdleDescriptor from './lib/descriptors/loose-values.json';
 
-import xml from './diagrams/emergency-response-plan/EmergencyResponePlan_none.bpmn';
-// import xml from './diagrams/emergency-response-plan/EmergencyResponePlan_composition.bpmn';
+import xml from './diagrams/EmergencyResponePlan_none.bpmn';
 import blankXml from './diagrams/newDiagram.bpmn';
+
+import connectToBlockchain from './lib/blockchain/connection';
+import setupEventListeners from './lib/blockchain/events';
+import updateUI from './lib/blockchain/uiUpdater';
 
 let lastFile;
 let isValidating = false;
@@ -31,7 +30,7 @@ const modeler = new ChorJSModeler({
     bindTo: document
   },
   moddleExtensions: {
-    tableValues : tableValuesModdleDescriptor
+    looseValues : looseValuesModdleDescriptor
   }
 });
 
@@ -49,77 +48,13 @@ function diagramName() {
   return 'diagram.bpmn';
 }
 
-// Function to get the current state of the contract
-async function getCurrentState(contract) {
-  try {
-    console.log(contract);
-    const state = await contract.methods.getCurrentState().call();
-    console.log('Current State:', state);
-    updateUI(state);
-  } catch (error) {
-    console.error('Error fetching state:', error);
-  }
-}
-
-// Function to update the UI based on the state of the contract
-function updateUI(state) {
-  state[0].forEach(element => {
-    const elementId = element.ID;
-    let strokeColor, fillColor;
-    console.log(element);
-    switch (Number(element.status)) {
-    case 0:
-      strokeColor = 'red';
-      fillColor = 'lightcoral';
-      break;
-    case 1:
-      strokeColor = 'orange';
-      fillColor = 'lightyellow';
-      break;
-    case 2:
-      strokeColor = 'green';
-      fillColor = 'lightgreen';
-      break;
-    default:
-      strokeColor = 'gray';
-      fillColor = 'lightgray';
-    }
-
-    setTaskColor(elementId, strokeColor, fillColor);
-  });
-}
-
-// Function to set colors on BPMN elements
-function setTaskColor(elementId, strokeColor, fillColor) {
-  const elementRegistry = modeler.get('elementRegistry');
-  const modeling = modeler.get('modeling');
-  const element = elementRegistry.get(elementId);
-
-  if (element) {
-    modeling.setColor([element], {
-      stroke: strokeColor,
-      fill: fillColor
-    });
-  }
-}
-
 document.addEventListener('DOMContentLoaded', async () => {
-  // Connect to the blockchain
-  const { ethereum } = window;
-  const web3 = new Web3(ethereum);
-  console.log(web3);
-  const contract = await new web3.eth.Contract(contractAbi, contractAddress);
-  console.log(contract.events);
-
-  // Event listener for functionDone events
-  contract.events.functionDone()
-    .on('data', async event => {
-      console.log('Event received:', event);
-      await getCurrentState(contract);
-    });
-  // .on('error', console.error);
-
-  await getCurrentState(contract);
+  // initialize the blockchain connection and set up event listeners
+  const contract = await connectToBlockchain();
+  if (contract) {
+    setupEventListeners(contract, modeler);
+    await updateUI(contract, modeler);
+  }
 
   // download diagram as XML
   const downloadLink = document.getElementById('js-download-diagram');
