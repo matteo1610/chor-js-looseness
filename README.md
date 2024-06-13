@@ -1,12 +1,15 @@
-# chor-js-demo
+# chor-js-looseness
 
-__[:rocket: Live Version :rocket:](https://bpt-lab.org/chor-js-demo/)__
+A modified version of the [`chor-js-demo`](https://github.com/bptlab/chor-js-demo) application, enhanced to implement various situations of looseness in BPMN 2.0 choreography diagrams.
 
-A simple demo application showing the usage of the _npm package_ of [`chor-js`](https://github.com/bptlab/chor-js) to view and edit BPMN 2.0 choreography diagrams in the browser.
+This demo application uses the npm package of chor-js to view and edit BPMN 2.0 choreography diagrams in the browser. It also includes additional features such as diagram upload, download, and validation. The primary focus of this modified version is to demonstrate the implementation of different looseness scenarios within choreography diagrams.
 
-The demo also adds some features such as diagram upload and download, and a [validator](./app/lib/validator).
+## Features
 
-> For an example on how to use the pre-packaged version of chor-js, please refer to the [README there](https://github.com/bptlab/chor-js).
+- **View and Edit BPMN 2.0 Choreography Diagrams**: Use chor-js to interact with BPMN 2.0 choreography diagrams.
+- **Diagram Upload and Download**: Easily upload and download diagrams for editing and sharing.
+- **Validator**: Check diagrams for potential issues.
+- **Looseness Implementation**: Demonstrates various scenarios of looseness in BPMN 2.0 choreography diagrams.
 
 ## Local Usage
 
@@ -21,40 +24,7 @@ npm install
 npm run dev
 ```
 
-You can also build it using `npm run build`.
-
-The demo is then served to `http://localhost:9013`.
-We use [Parcel](https://parceljs.org) as a build tool.
-Thus, unless you set up the project as a development environment (see below), chor-js will not be transpiled and polyfilled, which should be no problem for modern browsers.
-
-#### Development Environment
-
-If you want to use the demo while developing [chor-js](https://github.com/bptlab/chor-js), you can link the two repositories:
-
-```shell
-git clone https://github.com/bptlab/chor-js.git
-cd chor-js
-npm install
-npm link
-
-cd ..
-git clone https://github.com/bptlab/chor-js-demo.git
-cd chor-js-demo
-npm install
-npm link chor-js
-npm run dev
-```
-
-### Docker
-
-We also provide a `Dockerfile` to use with Docker.
-
-```shell
-docker build . -t chor-js-demo
-docker run --rm -p 9013:9013 --name chor-js-demo -it chor-js-demo
-```
-
-The demo is then served to `http://localhost:9013` as a production build using the latest version of chor-js (see Dockerfile).
+The demo will be served at http://localhost:9013. We use Parcel as a build tool. Thus, unless you set up the project as a development environment (see below), chor-js will not be transpiled and polyfilled, which should be no problem for modern browsers.
 
 ## License
 
