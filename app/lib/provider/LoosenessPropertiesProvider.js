@@ -36,6 +36,9 @@ export default function LoosenessPropertiesProvider(injector, bpmnFactory, trans
   };
 }
 
+inherits(LoosenessPropertiesProvider, BpmnPropertiesProvider);
+LoosenessPropertiesProvider.$inject = ['injector', 'bpmnFactory', 'translate'];
+
 /**
  * Creates the groups for the modeling tab.
  * @param {djs.model.Base|ModdleElement} element - The element to create the groups for.
@@ -78,6 +81,3 @@ function createExecutionGroups(element, bpmnFactory, translate) {
 
   return [executionGroup];
 }
-
-inherits(LoosenessPropertiesProvider, BpmnPropertiesProvider);
-LoosenessPropertiesProvider.$inject = ['injector', 'bpmnFactory', 'translate'];

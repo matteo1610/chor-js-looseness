@@ -12,7 +12,7 @@
       "extends": [
         "bpmn:Choreography",
         "bpmn:Message",
-        "bpmn:Participant",
+        "bpmn:Participant"
       ],
       "properties": [
         {

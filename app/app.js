@@ -5,7 +5,7 @@ import PropertiesProviderModule from './lib/provider';
 
 import looseValuesModdleDescriptor from './lib/descriptors/loose-values.json';
 
-import xml from './diagrams/EmergencyResponePlan_none.bpmn';
+import xml from './diagrams/EmergencyResponsePlan_none.bpmn';
 import blankXml from './diagrams/newDiagram.bpmn';
 
 import connectToBlockchain from './lib/blockchain/connection';
