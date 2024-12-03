@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import { contractAbi, contractAddress } from './contract';
+import { contractAbi, contractAddress } from './Contract.js';
 
 /**
  * Connect to the blockchain. If MetaMask is not installed, an alert is shown. If MetaMask is installed, a new Web3

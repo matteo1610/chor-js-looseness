@@ -8,9 +8,9 @@ import looseValuesModdleDescriptor from './lib/descriptors/loose-values.json';
 import xml from './diagrams/EmergencyResponsePlan_none.bpmn';
 import blankXml from './diagrams/newDiagram.bpmn';
 
-import connectToBlockchain from './lib/blockchain/connection';
-import setupEventListeners from './lib/blockchain/events';
-import updateUI from './lib/blockchain/uiUpdater';
+import connectToBlockchain from './lib/blockchain/Connection.js';
+import setupEventListeners from './lib/blockchain/Events.js';
+import updateUI from './lib/blockchain/UiUpdater.js';
 
 let lastFile;
 let isValidating = false;

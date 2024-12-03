@@ -47,6 +47,6 @@
     "camunda-bpmn-moddle": "^7.0.1",
     "chor-js": "0.7.1",
     "inherits": "^2.0.4",
-    "web3": "^4.9.0"
+    "web3": "^4.15.0"
   }
 }
